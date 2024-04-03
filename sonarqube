@@ -1,3 +1,5 @@
+t2 medium
+
 sudo sysctl -w vm.max_map_count=262164      
 sudo sysctl -w fs.file-max=65536
 ulimit -n 65536
@@ -5,8 +7,9 @@ ulimit -u 4096
 
 sudo nano /etc/security/limits.conf
 
-sonarqube   -   nofile   65536
-sonarqube   -   nproc    4096
+    ====>>> past chei last ki
+         sonarqube   -   nofile   65536
+         sonarqube   -   nproc    4096
 
 
 sudo apt-get update
@@ -14,8 +17,6 @@ sudo apt-get update
 sudo apt-get install wget unzip -y
 
 sudo apt-get install openjdk-11-jdk -y
-
-sudo apt-get install openjdk-11-jre -y
 
 sudo update-alternatives --config java
 
@@ -39,18 +40,18 @@ su - postgres
 createuser sonar
 
 psql
+  =======>>>>>run 44 to 54
+      ALTER USER sonar WITH ENCRYPTED password 'sonar';
 
-ALTER USER sonar WITH ENCRYPTED password 'sonar';
+      CREATE DATABASE sonarqube OWNER sonar;
 
-CREATE DATABASE sonarqube OWNER sonar;
+      grant all privileges on DATABASE sonarqube to sonar;
 
-grant all privileges on DATABASE sonarqube to sonar;
+      // grant all privileges to sonar USER on sonarqube DATABASE
 
-// grant all privileges to sonar USER on sonarqube DATABASE
+      \q
 
-\q
-
-exit
+      exit
 
 cd /tmp
 
@@ -70,54 +71,61 @@ sudo chown -R sonar:sonar /opt/sonarqube
 
 sudo nano /opt/sonarqube/conf/sonar.properties
 
-sonar.jdbc.username=sonar
-sonar.jdbc.password=sonar
-sonar.jdbc.url=jdbc:postgresql://localhost:5432/sonarqube
+   =====>>>>remove # symbol this three lines (first 2 lines database lo undhi. 3rd line #----- PostgreSQL 9.3 or greater lo undhi so 3rd line replace chei
+	sonar.jdbc.username=sonar
+	sonar.jdbc.password=sonar
+	sonar.jdbc.url=jdbc:postgresql://localhost:5432/sonarqube
 
 sudo nano /opt/sonarqube/bin/linux-x86-64/sonar.sh
-#RUN_AS_USER=sonar
+  ========>>>>>remove # and replace with RUN_AS_USER=sonar
+        #RUN_AS_USER=sonar
 
 sudo su sonar
+=======>>>>> type all below 6 lines 
 
-cd /opt/sonarqube/bin/linux-x86-64/
+	cd /opt/sonarqube/bin/linux-x86-64/
 
-./sonar.sh start
+	./sonar.sh start
 
-./sonar.sh status
+	./sonar.sh status
 
-cd /opt/sonarqube/bin/linux-x86-64/
+	cd /opt/sonarqube/bin/linux-x86-64/
 
-./sonar.sh stop
+	./sonar.sh stop
 
-exit
+	exit
 
 sudo nano /etc/systemd/system/sonar.service
+   ==========>>>>> past all
+	[Unit]
+	Description=SonarQube service
+	After=syslog.target network.target
 
-[Unit]
-Description=SonarQube service
-After=syslog.target network.target
+	[Service]
+	Type=forking
 
-[Service]
-Type=forking
+	ExecStart=/opt/sonarqube/bin/linux-x86-64/sonar.sh start
+	ExecStop=/opt/sonarqube/bin/linux-x86-64/sonar.sh stop
 
-ExecStart=/opt/sonarqube/bin/linux-x86-64/sonar.sh start
-ExecStop=/opt/sonarqube/bin/linux-x86-64/sonar.sh stop
+	User=sonar
+	Group=sonar
+	Restart=always
 
-User=sonar
-Group=sonar
-Restart=always
+	LimitNOFILE=65536
+	LimitNPROC=4096
 
-LimitNOFILE=65536
-LimitNPROC=4096
-
-[Install]
-WantedBy=multi-user.target
+	[Install]
+	WantedBy=multi-user.target
 
 sudo systemctl start sonar
 
- sudo systemctl enable sonar
+sudo systemctl enable sonar
 
  sudo systemctl status sonar
 
 
 	public IP:9000
+
+===========>>>>>>>>>> if sonarqube stop than u start this commands
+sudo sysctl -w vm.max_map_count=262164      
+sudo sysctl -w fs.file-max=65536
