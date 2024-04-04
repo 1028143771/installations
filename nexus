@@ -6,7 +6,8 @@ Let us see how to configure Nexus 3 on Ubuntu 18.0.4.
 How to setup SonaType Nexus3 on Ubuntu:
 
  sudo apt update && sudo apt install openjdk-8-jre-headless -y
- chnage to the directory cd /opt
+    =========>>>>>>>>>>>chnage to the directory 
+ cd /opt
  sudo wget https://download.sonatype.com/nexus/3/nexus-3.22.0-02-unix.tar.gz
  sudo tar -xvf nexus-3.22.0-02-unix.tar.gz
  sudo mv nexus-3.22.0-02 nexus
@@ -21,30 +22,30 @@ How to setup SonaType Nexus3 on Ubuntu:
 
  -->Add all the below changes the file 
 
--Xms512M
--Xmx512M
--XX:MaxDirectMemorySize=512m
+    -Xms512M
+    -Xmx512M
+    -XX:MaxDirectMemorySize=512m
 
  sudo vi /etc/systemd/system/nexus.service
  
 -->Copy  the below content
 
-[Unit]
-Description=nexus service
-After=network.target
+    [Unit]
+    Description=nexus service
+    After=network.target
 
-[Service]
-Type=forking
-LimitNOFILE=65536
-User=nexus
-Group=nexus
-ExecStart=/opt/nexus/bin/nexus start
-ExecStop=/opt/nexus/bin/nexus stop
-User=nexus
-Restart=on-abort
+    [Service]
+    Type=forking
+    LimitNOFILE=65536
+    User=nexus
+    Group=nexus
+    ExecStart=/opt/nexus/bin/nexus start
+    ExecStop=/opt/nexus/bin/nexus stop
+    User=nexus
+    Restart=on-abort
 
-[Install]
-WantedBy=multi-user.target
+    [Install]
+    WantedBy=multi-user.target
 
  sudo systemctl enable nexus
  sudo systemctl start nexus
@@ -53,3 +54,9 @@ WantedBy=multi-user.target
 
 
 URL - http://public_dns_name:8081
+
+==========>>>>>>>>>>>
+nexus restart commands
+ sudo systemctl enable nexus
+ sudo systemctl start nexus
+ sudo systemctl status nexus
